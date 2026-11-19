@@ -1,0 +1,29 @@
+name: Radar Retail Diario 6 PM
+
+on:
+  schedule:
+    # 0 23 * * * UTC equivale a la hora elegida en Colombia (UTC-5)
+    - cron: '0 23 * * *'
+  workflow_dispatch: # Permite ejecutar una prueba manual cuando quieras
+
+jobs:
+  enviar-radar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar código del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar SDK oficial de Gemini
+        run: pip install google-genai
+
+      - name: Generar y enviar Radar a Gmail
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: python radar_diario.py
