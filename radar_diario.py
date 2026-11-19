@@ -34,9 +34,12 @@ def generar_reporte_html():
     - NO inventes enlaces ni fechas. Si un día no hay novedad en una sección, indícalo brevemente.
     - Devuelve únicamente código HTML válido sin bloques de markdown (```html).
     """
+    modelos = [m.name for m in client.models.list() if "flash" in m.name.lower()]
+    print("Modelos disponibles:", modelos)
+    modelo_elegido = modelos[0]
 
     response = client.models.generate_content(
-        model="gemini-flash-latest",
+        model=modelo_elegido,
         contents=prompt,
         config=types.GenerateContentConfig(
             tools=[{"google_search": {}}],
