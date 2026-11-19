@@ -36,7 +36,7 @@ def generar_reporte_html():
     """
 
     response = client.models.generate_content(
-        model="gemini-3.0-flash",
+        model="gemini-flash-latest",
         contents=prompt,
         config=types.GenerateContentConfig(
             tools=[{"google_search": {}}],
